@@ -38,7 +38,7 @@ public class GradebookGUI implements Serializable{
         mainMenu.setTitle("Gradebook and Calculator");
         //mainMenu.setLayout(new GridLayout());
         //just set it to this for now.
-        mainMenu.setLayout(new FlowLayout());
+        mainMenu.setLayout(new GridLayout(0,1));
         mainMenu.setSize(640,640);
 
     //  --==setting up the menu==-- \\
@@ -87,27 +87,11 @@ public class GradebookGUI implements Serializable{
         //for now we test / see how it looks so im doing that here
         //learning mode activated:
         
-        FlowLayout layout = new FlowLayout();
-
-        layout.setAlignment(FlowLayout.TRAILING);
-        JPanel testLabel = new JPanel();
-        testLabel.setLayout(layout);
-
-        testLabel.add(new Label("test"));
-        testLabel.add(new Label("test2"));
-
-        JPanel testTable = new JPanel();
-        testTable.setLayout(new FlowLayout());
-
-        testTable.add(new JTable(4,4));
-
-        mainMenu.add(testLabel, BorderLayout.CENTER);
-        mainMenu.add(testTable, BorderLayout.SOUTH);
-
-
-
-
-
+        mainMenu.add(new Label("test"));
+        JTable table = new JTable(100,4);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        JScrollPane scroll = new JScrollPane(table);
+        mainMenu.add(scroll);
         //set up visibility and what happens when we close the program
         mainMenu.pack();
         mainMenu.setVisible(true);
