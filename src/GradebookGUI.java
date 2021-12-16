@@ -38,11 +38,11 @@ public class GradebookGUI implements Serializable{
         mainMenu.setTitle("Gradebook and Calculator");
         //mainMenu.setLayout(new GridLayout());
         //just set it to this for now.
-        mainMenu.setPreferredSize(new Dimension(640,640));
+        mainMenu.setLayout(new FlowLayout());
         mainMenu.setSize(640,640);
-        mainMenu.pack();
 
-        //setting up the menu
+    //  --==setting up the menu==-- \\
+
         JMenuBar menuBar = new JMenuBar();
         JMenu modes = new JMenu("Modes");
         JMenuItem predictionMode = new JMenuItem("Prediction Mode");
@@ -80,7 +80,21 @@ public class GradebookGUI implements Serializable{
         menuBar.add(options);
         mainMenu.setJMenuBar(menuBar);
 
+    //  --==set up gui==-- \\
+        //set up jtable
+        //columns = number of attributes for an assignment - ass. name, ass. category, points earned, points possible - 4 columns
+        //rows = number of assignments for a class - variable
+        //for now we test / see how it looks so im doing that here
+
+        JLabel lab = new JLabel("test");
+        mainMenu.add(lab);
+        JTable tables = new JTable(4,4);
+        mainMenu.add(tables);
+        JTable tables2 = new JTable(6,6);
+        mainMenu.add(tables2);
+
         //set up visibility and what happens when we close the program
+        mainMenu.pack();
         mainMenu.setVisible(true);
         mainMenu.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e){
@@ -158,6 +172,7 @@ public class GradebookGUI implements Serializable{
     }
 
 
+    //ignore, this is all testing.
     public static void main(String [] args) throws Exception{
         GradebookGUI gradebook = new GradebookGUI();
         Class math = new Class("Math");
