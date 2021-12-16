@@ -30,16 +30,17 @@ public class GradebookGUI implements Serializable{
             try {
                 ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(".." + slash + "ignore-student-data" + slash + "grades.bin"));
                 int size = objectInputStream.readInt();
+                System.out.println(size);
                 for(int i = 0; i < size; i++) {
                     Category category = (Category) objectInputStream.readObject();
                     System.out.println(category + " " +category.pointsForThisCategory());
                     categories.add(category);
                 }
+                objectInputStream.close();
             }
             catch (Exception e) {
                 e.printStackTrace();
             }
-            objectInputStream.close();
             System.out.println(gradesBin.delete());
             System.out.println(getGrade());
         }
@@ -126,6 +127,7 @@ public class GradebookGUI implements Serializable{
     private void writeData(){
         try {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream((".." + slash + "ignore-student-data" + slash + "grades.bin")));
+            System.out.println(categories.size());
             objectOutputStream.writeInt(categories.size());
             for(int i = 0; i < categories.size(); i++) {
                 objectOutputStream.writeObject(categories.get(i));
@@ -138,6 +140,10 @@ public class GradebookGUI implements Serializable{
         System.exit(1);
     }
 
+    public boolean isEmpty() {
+        return categories.isEmpty();
+    }
+
     private void retrieveData() {
 
     }
@@ -147,12 +153,14 @@ public class GradebookGUI implements Serializable{
         GradebookGUI gradebook = new GradebookGUI();
         Category tests = new Category("Test", 50);
         Category homework = new Category("Homework", 50);
-        gradebook.addCategory(tests);
-        gradebook.addCategory(homework);
-        gradebook.addAssignment(tests, new Assignment("Test 1", 25, 50));
-        gradebook.addAssignment(tests, new Assignment("Test 2",50, 50));
-        gradebook.addAssignment(homework, new Assignment("HW 1", 10, 10));
-        gradebook.addAssignment(homework, new Assignment("HW 2", 10,10));
+        if (gradebook.isEmpty()){
+            gradebook.addCategory(tests);
+            gradebook.addCategory(homework);
+            gradebook.addAssignment(tests, new Assignment("Test 1", 25, 50));
+            gradebook.addAssignment(tests, new Assignment("Test 2",50, 50));
+            gradebook.addAssignment(homework, new Assignment("HW 1", 10, 10));
+            gradebook.addAssignment(homework, new Assignment("HW 2", 10,10));
+        }
 
         //System.out.println(gradebook.getGrade());
 
@@ -160,7 +168,8 @@ public class GradebookGUI implements Serializable{
 
         //System.out.println(gradebook.getGrade());
 
-        WriteToFile saveData = new WriteToFile("student-data.txt", gradebook);
+       // WriteToFile saveData = new WriteToFile("student-data.txt", gradebook);
+
 
     }
 }
