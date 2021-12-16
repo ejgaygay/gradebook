@@ -41,6 +41,7 @@ public class GradebookGUI implements Serializable{
         //mainMenu.setLayout(new GridLayout());
         //just set it to this for now.
         mainMenu.setPreferredSize(new Dimension(640,640));
+        mainMenu.setSize(640,640);
         mainMenu.pack();
 
         //setting up the menu
