@@ -15,6 +15,10 @@ import java.io.File;
 //buttons under lists
 // - add
 // - remove
+//currently only supports one class.
+//to implement in future
+// = multiple class support
+// = features associated with it.
 public class GradebookGUI implements Serializable{
     JFrame mainMenu;
     private ArrayList<Category> categories;
