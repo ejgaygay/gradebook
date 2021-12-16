@@ -43,7 +43,9 @@ public class Assignment implements Serializable{
     }
 
     public String toString() {
-        return name + ": " + pointsEarned + "/" + pointsPossible + "\n";
+        StringBuilder string = new StringBuilder();
+        string.append(name + ": " + pointsEarned + "/" + pointsPossible +"\n");
+        return string.toString();
     }
 
     //assignment equality based on name.
