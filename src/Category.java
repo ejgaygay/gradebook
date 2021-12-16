@@ -1,7 +1,5 @@
 import java.util.*;
-import java.io.Serializable;
-
-public class Category implements Serializable{
+public class Category {
     private int totalScore;
     private int totalPoints; //percent for category = totalScore/totalPoints*weight;
     private int weight;

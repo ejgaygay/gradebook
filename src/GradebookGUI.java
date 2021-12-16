@@ -2,10 +2,6 @@ import java.awt.*;
 import java.util.*;
 import java.io.*;
 import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.Serializable;
-import java.io.File;
 
 //creating a jar file - jar vfe jarname.jar mainclass *.class
 /**
@@ -15,47 +11,23 @@ import java.io.File;
 //buttons under lists
 // - add
 // - remove
-public class GradebookGUI implements Serializable{
+public class GradebookGUI {
     JFrame mainMenu;
     private ArrayList<Category> categories;
-    //for os
-    String slash = System.getProperty("file.separator");
-   // System.setProperty("java.awt.headless", "false");
     public GradebookGUI (){
-
-        //init categories
-        File gradesBin = new File(".." + slash + "ignore-student-data" + slash + "grades.bin");
-        categories = new ArrayList<>(0);
-        if (gradesBin.exists()) {
-            try {
-                ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(".." + slash + "ignore-student-data" + slash + "grades.bin"));
-                int size = objectInputStream.readInt();
-                for(int i = 0; i < size; i++) {
-                    Category category = (Category) objectInputStream.readObject();
-                    System.out.println(category + " " +category.pointsForThisCategory());
-                    categories.add(category);
-                }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-            objectInputStream.close();
-            System.out.println(gradesBin.delete());
-            System.out.println(getGrade());
-        }
 
         //init frame
         //for now we want to test the other methods in assignment, category, and the lists
+        /*
         mainMenu = new JFrame();
         mainMenu.setTitle("Gradebook and Calculator");
         mainMenu.setLayout(new GridLayout());
         mainMenu.pack();
         mainMenu.setVisible(true);
-        mainMenu.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e){
-                writeData();
-            }
-        });
+        mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        */
+        //init categories
+        categories = new ArrayList<>(0);
     }
 
     //add a category to our gradebook
@@ -122,25 +94,6 @@ public class GradebookGUI implements Serializable{
             return 'o';
     }
 
-    //write categories and assignments to data
-    private void writeData(){
-        try {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream((".." + slash + "ignore-student-data" + slash + "grades.bin")));
-            objectOutputStream.writeInt(categories.size());
-            for(int i = 0; i < categories.size(); i++) {
-                objectOutputStream.writeObject(categories.get(i));
-            }
-            objectOutputStream.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.exit(1);
-    }
-
-    private void retrieveData() {
-
-    }
 
 
     public static void main(String [] args) throws Exception{
@@ -154,11 +107,11 @@ public class GradebookGUI implements Serializable{
         gradebook.addAssignment(homework, new Assignment("HW 1", 10, 10));
         gradebook.addAssignment(homework, new Assignment("HW 2", 10,10));
 
-        //System.out.println(gradebook.getGrade());
+        System.out.println(gradebook.getGrade());
 
-        //gradebook.getCategory("Test").setAssignment(new Assignment("Test 1", 40, 50));
+        gradebook.getCategory("Test").setAssignment(new Assignment("Test 1", 40, 50));
 
-        //System.out.println(gradebook.getGrade());
+        System.out.println(gradebook.getGrade());
 
         WriteToFile saveData = new WriteToFile("student-data.txt", gradebook);
 

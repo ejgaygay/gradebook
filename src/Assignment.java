@@ -1,6 +1,4 @@
-import java.io.Serializable;
-
-public class Assignment implements Serializable{
+public class Assignment{
     private int pointsEarned; // pointsPossible/pointsEarned
     private int pointsPossible;
     String name; //assignment name
