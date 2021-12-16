@@ -7,23 +7,37 @@ public class Category implements Serializable{
     private int weight;
     private ArrayList<Assignment> assignments;
     private String name;
+    private boolean toggled;
 
     public Category(String name, int weight) {
         this.name = name;
         this.weight = weight;
         this.totalScore = 0;
         this.totalPoints = 0;
+        boolean toggled = false;
         assignments = new ArrayList<>(0);
     }
 
     public double pointsForThisCategory(){
         return ( ((double)totalScore) / ((double)totalPoints) ) * weight ;
     }
+
+    public boolean checkToggle() {
+        if (assignments.isEmpty()) {
+            toggled = false;
+        }
+        else{
+            toggled = true;
+        }
+        return toggled;
+    }
+
     //add an assignment to the list for this category.
     public void add(Assignment assignment) {
         assignments.add(assignment);
         totalScore += assignment.getPointsEarned();
         totalPoints += assignment.getPointsPossible();
+        checkToggle();
     }
 
     //remove an assignment completely
@@ -31,6 +45,7 @@ public class Category implements Serializable{
         if (assignments.remove(assignment)) {
             totalScore -= assignment.getPointsEarned();
             totalPoints -= assignment.getPointsPossible();
+            checkToggle();
         }
     }
 

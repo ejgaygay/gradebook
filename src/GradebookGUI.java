@@ -24,14 +24,12 @@ import javax.swing.JOptionPane;
 // = features associated with it.
 public class GradebookGUI implements Serializable{
     JFrame mainMenu;
-    private ArrayList<Category> categories;
+    ArrayList<Class> classes;
     //for os
     String slash = System.getProperty("file.separator");
     //System.setProperty("java.awt.headless", "false");
     public GradebookGUI (){
-
-        //init categories
-        categories = new ArrayList<>(0);
+        classes = new ArrayList<>(0);
         retrieveData();
 
         //init frame
@@ -48,11 +46,19 @@ public class GradebookGUI implements Serializable{
         JMenuBar menuBar = new JMenuBar();
         JMenu modes = new JMenu("Modes");
         JMenuItem predictionMode = new JMenuItem("Prediction Mode");
+        JMenuItem viewGrades = new JMenuItem("View Grades");
 
         JMenu options = new JMenu("Options");
         JMenuItem exit = new JMenuItem("Exit");
         //shows us a message when we try to click on the menu item mode
         predictionMode.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Object s = new String("Hey. Feature is a work in progress right now. :(");
+                JOptionPane.showMessageDialog(null,s);
+            }
+        });
+
+        viewGrades.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Object s = new String("Hey. Feature is a work in progress right now. :(");
                 JOptionPane.showMessageDialog(null,s);
@@ -68,6 +74,7 @@ public class GradebookGUI implements Serializable{
         
         //set up menus
         modes.add(predictionMode);
+        modes.add(viewGrades);
         options.add(exit);
         menuBar.add(modes);
         menuBar.add(options);
@@ -82,78 +89,36 @@ public class GradebookGUI implements Serializable{
         });
     }
 
-    //add a category to our gradebook
-    public void addCategory(Category category){
-        categories.add(category);
+    public void addClass(Class course) {
+        classes.add(course);
     }
 
-    public void addAssignment(Category category, Assignment assignment) {
-        categories.get(categories.indexOf(category)).add(assignment);
+    public void removeClass(Class course) {
+        classes.remove(course);
     }
 
-    public void removeAssignment(Category category, Assignment assignment) {
-        categories.get(categories.indexOf(category)).remove(assignment);
-    }
-
-    public double getGrade(){
-        double points = 0;
-        //assumed that all categories ultimate weights summed will add up to 100
-        int pointsPossible = 100;
-        for (int i = 0; i < categories.size(); i++) {
-            points += categories.get(i).pointsForThisCategory();
-        }
-        return points / pointsPossible ;
-    }
-
-    //get a category based on a category's name
-    public Category getCategory(String category) {
-        for(int i = 0; i < categories.size(); i++) {
-            if(category.equals(categories.get(i).getCategory())){
-                return categories.get(i);
+    public Class getClass(String course) {
+        for (int i = 0 ; i < classes.size(); i++) {
+            if (course.equals(classes.get(i).getClassName())){
+                return classes.get(i);
             }
         }
         return null;
     }
 
-    //return the category at index i;
-    public Category getCategory(int i) {
-        return categories.get(i);
+    public boolean isEmpty(){
+        return classes.isEmpty();
     }
 
-    public int getSize() {
-        return categories.size();
-    }
-
-    //fix this more but for now, it works i guess
-    public char getGradeLetter(){
-        double grade = getGrade()*100;
-        if (grade < 60) {
-            return 'F';
-        }
-        else if(grade < 70) {
-            return 'D';
-        }
-        else if(grade < 80) {
-            return 'C';
-        }
-        else if (grade < 90) {
-            return 'B';
-        }
-        else if(grade < 100) {
-            return 'A';
-        }
-        else
-            return 'o';
-    }
 
     //write categories and assignments to data
     private void writeData(){
         try {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream((".." + slash + "ignore-student-data" + slash + "grades.bin")));
-            System.out.println(categories.size());
-            objectOutputStream.writeInt(categories.size());
-            for(int i = 0; i < categories.size(); i++) {
-                objectOutputStream.writeObject(categories.get(i));
+            System.out.println(classes.size());
+            objectOutputStream.writeInt(classes.size());
+            for(int i = 0; i < classes.size(); i++) {
+                objectOutputStream.writeObject(classes.get(i));
             }
             objectOutputStream.close();
         }
@@ -161,10 +126,6 @@ public class GradebookGUI implements Serializable{
             e.printStackTrace();
         }
         System.exit(1);
-    }
-
-    public boolean isEmpty() {
-        return categories.isEmpty();
     }
 
     private void retrieveData() {
@@ -175,9 +136,9 @@ public class GradebookGUI implements Serializable{
                 int size = objectInputStream.readInt();
                 System.out.println(size);
                 for(int i = 0; i < size; i++) {
-                    Category category = (Category) objectInputStream.readObject();
-                    System.out.println(category + " " +category.pointsForThisCategory());
-                    categories.add(category);
+                    Class course = (Class) objectInputStream.readObject();
+                    System.out.println(course);
+                    classes.add(course);
                 }
                 objectInputStream.close();
             }
@@ -185,22 +146,38 @@ public class GradebookGUI implements Serializable{
                 e.printStackTrace();
             }
             System.out.println(gradesBin.delete());
-            System.out.println(getGrade());
+            printClasses();
+        }
+    }
+
+    public void printClasses(){
+        for (int i = 0; i<classes.size(); i++) {
+            System.out.println(classes.get(i));
+            System.out.println(classes.get(i).getGrade());
         }
     }
 
 
     public static void main(String [] args) throws Exception{
         GradebookGUI gradebook = new GradebookGUI();
+        Class math = new Class("Math");
+        Class computers = new Class("Computers");
         Category tests = new Category("Test", 50);
         Category homework = new Category("Homework", 50);
+        Category tests2 = new Category("Test", 50);
+        Category homework2 = new Category("Homework", 50);
+        math.addCategory(tests);
+        math.addCategory(homework);
+        computers.addCategory(tests2);
+        computers.addCategory(homework2);
+        math.getCategory("Test").add(new Assignment("Test 1", 25, 50));
+        math.getCategory("Test").add(new Assignment("Test 2",50, 50));
+        computers.getCategory("Test").add(new Assignment("Test 1",50, 50));
+        computers.getCategory("Test").add(new Assignment("Test 2", 50, 50));
+        
         if (gradebook.isEmpty()){
-            gradebook.addCategory(tests);
-            gradebook.addCategory(homework);
-            gradebook.addAssignment(tests, new Assignment("Test 1", 25, 50));
-            gradebook.addAssignment(tests, new Assignment("Test 2",50, 50));
-            gradebook.addAssignment(homework, new Assignment("HW 1", 10, 10));
-            gradebook.addAssignment(homework, new Assignment("HW 2", 10,10));
+            gradebook.addClass(math);
+            gradebook.addClass(computers);
         }
 
         //System.out.println(gradebook.getGrade());
