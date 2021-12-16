@@ -6,7 +6,10 @@ import java.io.FileNotFoundException;
 //work on this part of project - finding out how to put the data written to the file back into the program for the gui
 public class ImportData {
     public ImportData(String filename) throws Exception{
-        String path = ("..\\ignore\\" + filename);
+        //helpful for multiple operating systems
+        String slash = System.getProperty("file.separator");
+        String path = ".." + slash + "ignore" + slash + filename;
+        
         Scanner scanner = new Scanner(new File(path));
 
         //general file format

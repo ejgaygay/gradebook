@@ -1,6 +1,0 @@
-Test 50
-Test 1: 40/50
-Test 2: 50/50
-Homework 50
-HW 1: 10/10
-HW 2: 10/10

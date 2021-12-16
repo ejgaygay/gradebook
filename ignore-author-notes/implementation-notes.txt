@@ -1,0 +1,22 @@
+When writing to the file to store the different data sets from the program
+
+general file format
+
+categoryName {
+    weight: #
+    Assignments {
+        assignmentName {
+            assignmentPoints: #
+            assignmentPointsEarned: #
+        }
+        assignmentName2 {
+            ...
+            ...
+        }
+    }
+}
+
+Notes on objectoutputstream and objectinputstream
+
+
+

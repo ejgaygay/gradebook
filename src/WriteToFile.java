@@ -9,7 +9,8 @@ public class WriteToFile {
     //assume filename is a txt file
     //filename will typically be named gradebook_data.txt
     public WriteToFile(String filename, GradebookGUI gradebook) throws Exception{
-        String path = "..\\ignore\\" + filename;
+        String slash = System.getProperty("file.separator");
+        String path = ".." + slash + "ignore-student-data" + slash + filename;
         File file = new File(path);
         file.setWritable(true);
         file.setReadable(true);
