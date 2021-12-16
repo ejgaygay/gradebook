@@ -6,6 +6,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.Serializable;
 import java.io.File;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 //creating a jar file - jar vfe jarname.jar mainclass *.class
 /**
@@ -35,8 +38,41 @@ public class GradebookGUI implements Serializable{
         //for now we want to test the other methods in assignment, category, and the lists
         mainMenu = new JFrame();
         mainMenu.setTitle("Gradebook and Calculator");
-        mainMenu.setLayout(new GridLayout());
+        //mainMenu.setLayout(new GridLayout());
+        //just set it to this for now.
+        mainMenu.setPreferredSize(new Dimension(640,640));
         mainMenu.pack();
+
+        //setting up the menu
+        JMenuBar menuBar = new JMenuBar();
+        JMenu modes = new JMenu("Modes");
+        JMenuItem predictionMode = new JMenuItem("Prediction Mode");
+
+        JMenu options = new JMenu("Options");
+        JMenuItem exit = new JMenuItem("Exit");
+        //shows us a message when we try to click on the menu item mode
+        predictionMode.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Object s = new String("Hey. Feature is a work in progress right now. :(");
+                JOptionPane.showMessageDialog(null,s);
+            }
+        });
+
+        exit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                writeData();
+                System.exit(1);
+            }
+        });
+        
+        //set up menus
+        modes.add(predictionMode);
+        options.add(exit);
+        menuBar.add(modes);
+        menuBar.add(options);
+        mainMenu.setJMenuBar(menuBar);
+
+        //set up visibility and what happens when we close the program
         mainMenu.setVisible(true);
         mainMenu.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e){
