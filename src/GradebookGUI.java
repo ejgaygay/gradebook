@@ -24,30 +24,12 @@ public class GradebookGUI implements Serializable{
     private ArrayList<Category> categories;
     //for os
     String slash = System.getProperty("file.separator");
-   // System.setProperty("java.awt.headless", "false");
+    //System.setProperty("java.awt.headless", "false");
     public GradebookGUI (){
 
         //init categories
-        File gradesBin = new File(".." + slash + "ignore-student-data" + slash + "grades.bin");
         categories = new ArrayList<>(0);
-        if (gradesBin.exists()) {
-            try {
-                ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(".." + slash + "ignore-student-data" + slash + "grades.bin"));
-                int size = objectInputStream.readInt();
-                System.out.println(size);
-                for(int i = 0; i < size; i++) {
-                    Category category = (Category) objectInputStream.readObject();
-                    System.out.println(category + " " +category.pointsForThisCategory());
-                    categories.add(category);
-                }
-                objectInputStream.close();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-            System.out.println(gradesBin.delete());
-            System.out.println(getGrade());
-        }
+        retrieveData();
 
         //init frame
         //for now we want to test the other methods in assignment, category, and the lists
@@ -149,7 +131,25 @@ public class GradebookGUI implements Serializable{
     }
 
     private void retrieveData() {
-
+        File gradesBin = new File(".." + slash + "ignore-student-data" + slash + "grades.bin");
+        if (gradesBin.exists()) {
+            try {
+                ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(".." + slash + "ignore-student-data" + slash + "grades.bin"));
+                int size = objectInputStream.readInt();
+                System.out.println(size);
+                for(int i = 0; i < size; i++) {
+                    Category category = (Category) objectInputStream.readObject();
+                    System.out.println(category + " " +category.pointsForThisCategory());
+                    categories.add(category);
+                }
+                objectInputStream.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println(gradesBin.delete());
+            System.out.println(getGrade());
+        }
     }
 
 
@@ -172,7 +172,6 @@ public class GradebookGUI implements Serializable{
 
         //System.out.println(gradebook.getGrade());
 
-       // WriteToFile saveData = new WriteToFile("student-data.txt", gradebook);
 
 
     }
