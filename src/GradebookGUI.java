@@ -85,13 +85,28 @@ public class GradebookGUI implements Serializable{
         //columns = number of attributes for an assignment - ass. name, ass. category, points earned, points possible - 4 columns
         //rows = number of assignments for a class - variable
         //for now we test / see how it looks so im doing that here
+        //learning mode activated:
+        
+        FlowLayout layout = new FlowLayout();
 
-        JLabel lab = new JLabel("test");
-        mainMenu.add(lab);
-        JTable tables = new JTable(4,4);
-        mainMenu.add(tables);
-        JTable tables2 = new JTable(6,6);
-        mainMenu.add(tables2);
+        layout.setAlignment(FlowLayout.TRAILING);
+        JPanel testLabel = new JPanel();
+        testLabel.setLayout(layout);
+
+        testLabel.add(new Label("test"));
+        testLabel.add(new Label("test2"));
+
+        JPanel testTable = new JPanel();
+        testTable.setLayout(new FlowLayout());
+
+        testTable.add(new JTable(4,4));
+
+        mainMenu.add(testLabel, BorderLayout.CENTER);
+        mainMenu.add(testTable, BorderLayout.SOUTH);
+
+
+
+
 
         //set up visibility and what happens when we close the program
         mainMenu.pack();
