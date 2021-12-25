@@ -2,6 +2,16 @@
 <p>
 Welcome to Gradebook, a program that essentially functions as your own little personal gradebook for a class!
 </p>
+
+<h2><b>Disclaimer:</b></h2>
+<p>
+So, uh... This little project is far from complete. However, I do have a generally stable working version of it that can
+<ul>
+    <li>Store grades/assignments/categories data</li>
+    <li>Calculate user grades and such.</li>
+</ul>
+And that's it. The general behaviors of the gradebook are there. The UI of the gradebook is practically non existent as I suck at UI design and UI coding in java. So for now, no instructions on usage and download so just enjoy this demo of a stable version, via the command line.
+</p>
 <h2><b>Motivation:</b></h2>
 
 <p>
